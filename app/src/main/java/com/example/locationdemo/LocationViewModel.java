@@ -94,6 +94,10 @@ public class LocationViewModel implements GPSTracker.LocationDelegate {
             periodicRequest.dispose();
     }
 
+    void logout(){
+        appRepository.logout();
+    }
+
     private Location lastKnownLocation;
     @Override
     public void onLocationChanged(Location location) {

@@ -9,16 +9,21 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.locationdemo.data.model.AppLocation;
 import com.example.locationdemo.data.model.GeolocationError;
 import com.example.locationdemo.data.model.GeolocationErrorTypes;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -41,7 +46,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         viewModel = new LocationViewModel();
         bind();
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -159,4 +163,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         isRequestingPermission = false;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_map, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.option_logout:
+                logout();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout(){
+        viewModel.logout();
+        finish();
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+    }
 }

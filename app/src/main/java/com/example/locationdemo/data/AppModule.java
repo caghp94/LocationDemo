@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.locationdemo.data.persistence.AppDao;
 import com.example.locationdemo.data.persistence.SharedPrefAppDao;
 import com.example.locationdemo.data.remote.FakeRemoteSource;
+import com.example.locationdemo.data.remote.FirebaseRemoteSource;
 import com.example.locationdemo.data.remote.RemoteSource;
 import com.example.locationdemo.utils.GPSTracker;
 
@@ -27,7 +28,7 @@ public class AppModule {
 
     @Provides
     RemoteSource provideRemoteSource(){
-        return new FakeRemoteSource();
+        return new FirebaseRemoteSource();
     }
 
     @Provides

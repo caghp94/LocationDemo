@@ -11,11 +11,9 @@ import retrofit2.http.POST;
 
 public interface RemoteSource {
 
-    @POST("login")
-    Flowable<LoginResponse> login(@Body LoginRequest request);
+    Flowable<UpdateLocationResponse> updateLocation(LocationRequest request);
 
+    Flowable<Boolean> login();
 
-    @POST("updateLocation")
-    Flowable<UpdateLocationResponse> updateLocation(@Body LocationRequest request);
-
+    Flowable<Boolean> logout();
 }

@@ -18,7 +18,13 @@ import android.widget.TextView;
 
 import com.example.locationdemo.data.AppRepository;
 import com.example.locationdemo.data.remote.response.LoginResponse;
+import com.example.locationdemo.utils.FirebaseUtils;
 import com.example.locationdemo.utils.ViewUtils;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Arrays;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -42,87 +48,40 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            // already signed in
+            goToMainScreen();
+        } else {
+            openFirebaseAuthUI();
+        }
+
     }
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
 
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+    private static final int RC_SIGN_IN = 123;
 
-        showProgress(true);
-
-        repository.login(email, password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<LoginResponse>() {
-                    @Override
-                    public void accept(@NonNull LoginResponse result) throws Exception {
-                        showProgress(false);
-                    }
-                })
-                .subscribe(new Consumer<LoginResponse>() {
-                    @Override
-                    public void accept(@NonNull LoginResponse result) throws Exception {
-                        if (result.isSuccess())
-                            goToMainScreen();
-                        else
-                            ViewUtils.toast(LoginActivity.this, result.getMessage());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        ViewUtils.toast(LoginActivity.this, throwable);
-                    }
-                });
+    private void openFirebaseAuthUI(){
+        FirebaseUtils.openAuthUI(this, RC_SIGN_IN);
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            repository.login();
+            goToMainScreen();
+        }else{
+            finish();
+        }
     }
 
     private void goToMainScreen(){
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

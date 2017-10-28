@@ -28,25 +28,6 @@ public class AppRepository {
         App.get().getComponent().inject(this);
     }
 
-
-    public Flowable<LoginResponse> login(@NonNull final String username, @NonNull final String password){
-        if (!username.contains("@"))
-            return Flowable.just(new LoginResponse(false, "Email inválido"));
-
-        if(password.length() < 4)
-            return Flowable.just(new LoginResponse(false, "Tu contraseña debe tener al menos 4 caracteres"));
-
-        return remoteSource.login(new LoginRequest(username, password))
-                .doOnNext(new Consumer<LoginResponse>() {
-                    @Override
-                    public void accept(@NonNull LoginResponse loginResponse) throws Exception {
-                        if (loginResponse.isSuccess())
-                            appDao.saveSession(username, password);
-                    }
-                });
-    }
-
-
     public Flowable<Boolean> updateLocation(double latitude, double longitude){
         LocationRequest request = new LocationRequest(latitude, longitude);
         return remoteSource.updateLocation(request).map(new Function<UpdateLocationResponse, Boolean>() {
@@ -57,5 +38,11 @@ public class AppRepository {
         });
     }
 
+    public void login(){
+        remoteSource.login();
+    }
 
+    public void logout(){
+        remoteSource.logout();
+    }
 }

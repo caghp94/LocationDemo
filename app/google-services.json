@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1029471165932",
+    "firebase_url": "https://location-demo-1509122885483.firebaseio.com",
+    "project_id": "location-demo-1509122885483",
+    "storage_bucket": "location-demo-1509122885483.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029471165932:android:b3298043369109dd",
+        "android_client_info": {
+          "package_name": "com.example.locationdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029471165932-p3jt6lhfrbln3pqlslc03lji4gg7no5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClU9NXPL4BCQIOTUkfa3l3TUj1-Jwl9t0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

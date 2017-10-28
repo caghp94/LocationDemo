@@ -12,12 +12,17 @@ import retrofit2.http.Body;
 public class FakeRemoteSource implements RemoteSource {
 
     @Override
-    public Flowable<LoginResponse> login(@Body LoginRequest request) {
-        return Flowable.just(new LoginResponse(true, "Success"));
+    public Flowable<UpdateLocationResponse> updateLocation(@Body LocationRequest request) {
+        return Flowable.just(new UpdateLocationResponse());
     }
 
     @Override
-    public Flowable<UpdateLocationResponse> updateLocation(@Body LocationRequest request) {
-        return Flowable.just(new UpdateLocationResponse());
+    public Flowable<Boolean> login() {
+        return Flowable.just(true);
+    }
+
+    @Override
+    public Flowable<Boolean> logout() {
+        return Flowable.just(true);
     }
 }
