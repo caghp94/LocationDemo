@@ -102,7 +102,7 @@ public class GPSTracker extends Service implements LocationListener {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this, Looper.getMainLooper());
                         if (locationManager != null) {
                             Location gpslocation = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);

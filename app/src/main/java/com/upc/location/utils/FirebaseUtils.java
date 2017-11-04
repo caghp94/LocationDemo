@@ -14,6 +14,7 @@ public class FirebaseUtils {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.GreenTheme)
+                        .setIsSmartLockEnabled(false)
                         .setAvailableProviders(
                                 Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
                                         new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),

@@ -47,6 +47,9 @@ public class LocationViewModel implements GPSTracker.LocationDelegate {
     }
 
     void start(){
+        if(periodicRequest != null)
+            periodicRequest.dispose();
+
         periodicRequest = Flowable
                 .interval(0, 10, TimeUnit.SECONDS).timeInterval()
                 .observeOn(Schedulers.io())
