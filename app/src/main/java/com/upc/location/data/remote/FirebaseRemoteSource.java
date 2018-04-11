@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ public class FirebaseRemoteSource implements RemoteSource {
         Map<String, Object> location = new HashMap<>();
         location.put("latitude", request.getLatitude());
         location.put("longitude", request.getLongitude());
+        location.put("lastTrackingDate", new Date().toString());
 
 
         myRef.child(id).updateChildren(location);
