@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".UserProfileActivity"
+    tools:showIn="@layout/activity_user_profile">
+
+
+    <TextView
+        android:id="@+id/text_sex"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingLeft="16dp"
+        android:text="Sexo:"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/text_sex_M"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingLeft="16dp"
+        android:text="H"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_sex"/>
+    <Switch
+        android:id="@+id/switch_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/text_sex_M"
+        app:layout_constraintTop_toTopOf="@id/text_sex"/>
+    <TextView
+        android:id="@+id/text_sex_F"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="M"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/switch_sex"/>
+
+    <TextView
+        android:id="@+id/text_career"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Carrera:"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/text_sex" />
+
+    <EditText
+        android:id="@+id/input_career"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@id/text_career" />
+
+    <TextView
+        android:id="@+id/text_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Teléfono:"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/input_career" />
+
+    <EditText
+        android:id="@+id/input_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@id/text_phone" />
+
+    <TextView
+        android:id="@+id/text_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Dirección:"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/input_phone" />
+
+    <EditText
+        android:id="@+id/input_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@id/text_address" />
+
+    <TextView
+        android:id="@+id/text_address2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Distrito:"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/input_address" />
+
+    <EditText
+        android:id="@+id/input_address2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@id/text_address2" />
+
+    <TextView
+        android:id="@+id/text_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Fecha de nacimiento:"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/input_address2" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/birthday_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintTop_toBottomOf="@id/text_birthday">
+
+        <TextView
+            android:id="@+id/text_birthday_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Día:"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/input_day"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/text_birthday_day" />
+
+        <TextView
+            android:id="@+id/text_birthday_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mes:"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toEndOf="@id/input_day"
+            app:layout_constraintTop_toTopOf="@id/text_birthday_day" />
+
+        <EditText
+            android:id="@+id/input_month"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/text_birthday_month" />
+
+        <TextView
+            android:id="@+id/text_birthday_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Año:"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toEndOf="@id/input_month"
+            app:layout_constraintTop_toTopOf="@id/text_birthday_month" />
+
+        <EditText
+            android:id="@+id/input_year"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/text_birthday_year" />
+    </android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="6dp"
+        android:layout_margin="16dp"
+        android:text="Continuar"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/birthday_layout"/>
+
+</android.support.constraint.ConstraintLayout>

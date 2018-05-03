@@ -14,4 +14,6 @@ public interface RemoteSource {
     Flowable<Boolean> login();
 
     Flowable<Boolean> logout();
+
+    Flowable<Boolean> updateProfileData(String sex, String career, String phone, String dir, String dis, String birthday);
 }

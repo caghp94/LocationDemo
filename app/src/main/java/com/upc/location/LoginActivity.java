@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             // already signed in
-            goToMainScreen();
+            goToProfileScreen();
         } else {
             openFirebaseAuthUI();
         }
@@ -55,14 +55,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             repository.login();
-            goToMainScreen();
+            goToProfileScreen();
         }else{
             finish();
         }
     }
 
-    private void goToMainScreen(){
-        Intent intent = new Intent(this, MapsActivity.class);
+    private void goToProfileScreen(){
+        Intent intent = new Intent(this, UserProfileActivity.class);
         startActivity(intent);
         finish();
     }

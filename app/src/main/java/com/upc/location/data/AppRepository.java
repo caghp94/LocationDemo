@@ -42,4 +42,8 @@ public class AppRepository {
     public void logout(){
         remoteSource.logout();
     }
+
+    public void updateProfileData(String sex, String career, String phone, String dir, String dis, String birthday){
+        remoteSource.updateProfileData(sex, career, phone, dir, dis, birthday);
+    }
 }

@@ -23,4 +23,9 @@ public class FakeRemoteSource implements RemoteSource {
     public Flowable<Boolean> logout() {
         return Flowable.just(true);
     }
+
+    @Override
+    public Flowable<Boolean> updateProfileData(String sex, String career, String phone, String dir, String dis, String birthday){
+        return Flowable.just(true);
+    }
 }

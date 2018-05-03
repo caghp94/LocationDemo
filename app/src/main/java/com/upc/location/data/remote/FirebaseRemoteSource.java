@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,13 +31,22 @@ public class FirebaseRemoteSource implements RemoteSource {
             return Flowable.just(new UpdateLocationResponse(false));
 
 
+        Map<String, Object> lastTrack = new HashMap<>();
+        //location.put("latitude", request.getLatitude());
+        //location.put("longitude", request.getLongitude());
+        lastTrack.put("lastTrackingDate", new Date().toString());
+
+        myRef.child(id).updateChildren(lastTrack);
+
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date now = new Date();
+        String dateNow = sDateFormat.format(now);
+
         Map<String, Object> location = new HashMap<>();
         location.put("latitude", request.getLatitude());
         location.put("longitude", request.getLongitude());
-        location.put("lastTrackingDate", new Date().toString());
 
-
-        myRef.child(id).updateChildren(location);
+        myRef.child(id).child("locations").child(dateNow).updateChildren(location);
 
         return Flowable.just(new UpdateLocationResponse(true));
     }
@@ -87,5 +97,25 @@ public class FirebaseRemoteSource implements RemoteSource {
             return currentUser.getUid();
         else
             return  null;
+    }
+
+    public Flowable<Boolean> updateProfileData(String sex, String career, String phone, String dir, String dis, String birthday) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser == null)
+            return Flowable.just(false);
+
+
+        Map<String, Object> profileData = new HashMap<>();
+
+        profileData.put("sex", sex);
+        profileData.put("career", career);
+        profileData.put("phone", phone);
+        profileData.put("address1", dir);
+        profileData.put("address2", dis);
+        profileData.put("birthday", birthday);
+
+        myRef.child(currentUser.getUid()).updateChildren(profileData);
+
+        return Flowable.just(true);
     }
 }
