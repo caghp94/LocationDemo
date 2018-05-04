@@ -1,6 +1,7 @@
 package com.upc.location;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -62,8 +63,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToProfileScreen(){
-        Intent intent = new Intent(this, UserProfileActivity.class);
-        startActivity(intent);
+        SharedPreferences preferences = this.getSharedPreferences("app_prefs", 0);
+        String career = preferences.getString("key_career", null);
+        if(career == null){
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+        }
         finish();
     }
 

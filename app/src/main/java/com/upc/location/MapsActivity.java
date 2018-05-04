@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.Settings;
 import android.os.Bundle;
@@ -181,6 +182,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         viewModel.logout();
         finish();
         Intent i = new Intent(this, LoginActivity.class);
+
+        SharedPreferences preferences = getSharedPreferences("PREFERENCES", 0);
+        preferences.edit().clear().apply();
+
         startActivity(i);
     }
 }

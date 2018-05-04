@@ -2,6 +2,10 @@ package com.upc.location.data.remote;
 
 import android.net.Uri;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.upc.location.data.remote.request.LocationRequest;
 import com.upc.location.data.remote.response.UpdateLocationResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +30,7 @@ public class FirebaseRemoteSource implements RemoteSource {
 
     @Override
     public Flowable<UpdateLocationResponse> updateLocation(@Body LocationRequest request) {
-        String id = getUserId();
+        final String id = getUserId();
         if(id == null)
             return Flowable.just(new UpdateLocationResponse(false));
 
@@ -38,15 +42,53 @@ public class FirebaseRemoteSource implements RemoteSource {
 
         myRef.child(id).updateChildren(lastTrack);
 
+
         SimpleDateFormat sDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Date now = new Date();
-        String dateNow = sDateFormat.format(now);
+        final String dateNow = sDateFormat.format(now);
 
-        Map<String, Object> location = new HashMap<>();
+        final Map<String, Object> location = new HashMap<>();
         location.put("latitude", request.getLatitude());
         location.put("longitude", request.getLongitude());
 
-        myRef.child(id).child("locations").child(dateNow).updateChildren(location);
+
+
+        //contar nodos
+        myRef.child(id).child("locations").getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Long size = dataSnapshot.getChildrenCount();
+                if(size >= 20) {
+                    DatabaseReference refLastLocation = myRef.child(id).child("locations").orderByKey().getRef();
+                    Query queryLastLocation = refLastLocation.limitToFirst(1);
+                    queryLastLocation.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
+                                childSnapshot.getRef().removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    myRef.child(id).child("locations").child(dateNow).updateChildren(location);
+                } else {
+                    myRef.child(id).child("locations").child(dateNow).updateChildren(location);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //eliminar el más antiguo
+
+
 
         return Flowable.just(new UpdateLocationResponse(true));
     }

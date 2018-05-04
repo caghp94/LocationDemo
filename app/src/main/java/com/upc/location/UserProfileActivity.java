@@ -1,6 +1,7 @@
 package com.upc.location;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.upc.location.R;
 import com.upc.location.data.AppRepository;
+import com.upc.location.data.persistence.SharedPrefAppDao;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -52,6 +54,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 String birthday = txtBirthDay.getText().toString() + "/" + txtBirthMonth.getText().toString() + "/" + txtBirthYear.getText().toString();
 
                 appRepository.updateProfileData(sex, career, phone, address1, address2, birthday);
+                SharedPrefAppDao sharedPrefAppDao = new SharedPrefAppDao(getApplicationContext());
+                sharedPrefAppDao.saveProfile(sex, career, phone, address1, address2, birthday);
 
                 goToMainScreen();
             }
