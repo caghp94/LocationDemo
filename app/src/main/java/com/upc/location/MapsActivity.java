@@ -41,7 +41,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        viewModel = new LocationViewModel();
+        viewModel = new LocationViewModel(this);
         bind();
     }
 

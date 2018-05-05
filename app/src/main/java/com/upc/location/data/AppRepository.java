@@ -1,5 +1,6 @@
 package com.upc.location.data;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.upc.location.App;
@@ -25,8 +26,8 @@ public class AppRepository {
         App.get().getComponent().inject(this);
     }
 
-    public Flowable<Boolean> updateLocation(double latitude, double longitude){
-        LocationRequest request = new LocationRequest(latitude, longitude);
+    public Flowable<Boolean> updateLocation(double latitude, double longitude, Context context){
+        LocationRequest request = new LocationRequest(latitude, longitude, context);
         return remoteSource.updateLocation(request).map(new Function<UpdateLocationResponse, Boolean>() {
             @Override
             public Boolean apply(@NonNull UpdateLocationResponse updateLocationResponse) throws Exception {

@@ -1,5 +1,8 @@
 package com.upc.location;
 
+import android.app.Application;
+import android.content.Context;
+import android.location.Geocoder;
 import android.location.Location;
 
 import com.upc.location.data.model.AppLocation;
@@ -8,6 +11,7 @@ import com.upc.location.utils.GPSTracker;
 import com.upc.location.data.AppRepository;
 import com.upc.location.data.model.GeolocationError;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -25,13 +29,15 @@ import io.reactivex.subjects.PublishSubject;
 public class LocationViewModel implements GPSTracker.LocationDelegate {
 
     AppRepository appRepository = new AppRepository();
+    Context context;
 
     @Inject
     GPSTracker gpsTracker;
 
-    public LocationViewModel() {
+    public LocationViewModel(Context context) {
         App.get().getComponent().inject(this);
         gpsTracker.setLocationDelegate(this);
+        this.context = context;
     }
 
     private PublishSubject<AppLocation> locationPublishSubject = PublishSubject.create();
@@ -80,7 +86,7 @@ public class LocationViewModel implements GPSTracker.LocationDelegate {
             appLocation.setLongitude(lastKnownLocation.getLongitude());
 
             locationPublishSubject.onNext(appLocation);
-            appRepository.updateLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+            appRepository.updateLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), context);
 
         }else{
             publishError(GeolocationErrorTypes.NO_LOCATION);

@@ -1,11 +1,16 @@
 package com.upc.location.data.remote;
 
+import android.app.Application;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.upc.location.MapsActivity;
 import com.upc.location.data.remote.request.LocationRequest;
 import com.upc.location.data.remote.response.UpdateLocationResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,9 +18,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -27,6 +35,8 @@ public class FirebaseRemoteSource implements RemoteSource {
     // Write a message to the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference().child("users");
+    private Context context;
+
 
     @Override
     public Flowable<UpdateLocationResponse> updateLocation(@Body LocationRequest request) {
@@ -51,6 +61,18 @@ public class FirebaseRemoteSource implements RemoteSource {
         location.put("latitude", request.getLatitude());
         location.put("longitude", request.getLongitude());
 
+        //obtener direccion
+        Geocoder geocoder;
+        geocoder = new Geocoder(request.getContext(), Locale.getDefault());
+
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocation(request.getLatitude(), request.getLongitude(), 1);
+            String address = addresses.get(0).getAddressLine(0);
+            location.put("address", address);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         //contar nodos
